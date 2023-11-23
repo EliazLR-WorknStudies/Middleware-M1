@@ -5,8 +5,8 @@ import (
 	"errors"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/models"
-	repository "middleware/example/internal/repositories/collections"
+	"middleware/users/internal/models"
+	repository "middleware/users/internal/repositories/collections"
 	"net/http"
 )
 

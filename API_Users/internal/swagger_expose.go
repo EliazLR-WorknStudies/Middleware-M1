@@ -1,6 +1,6 @@
 package internal
 
-// @title        middleware/example
+// @title        middleware/users
 // @version      1.0.0
 // @description  API to manage collections.
 

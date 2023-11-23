@@ -1,4 +1,4 @@
-module middleware/example
+module middleware/users
 
 go 1.19
 

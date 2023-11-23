@@ -2,8 +2,8 @@ package collections
 
 import (
 	"github.com/gofrs/uuid"
-	"middleware/example/internal/helpers"
-	"middleware/example/internal/models"
+	"middleware/users/internal/helpers"
+	"middleware/users/internal/models"
 )
 
 func GetAllCollections() ([]models.Collection, error) {

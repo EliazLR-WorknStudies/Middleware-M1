@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/models"
-	"middleware/example/internal/repositories/collections"
+	"middleware/users/internal/models"
+	"middleware/users/internal/repositories/collections"
 	"net/http"
 )
 

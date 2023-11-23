@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/controllers/collections"
-	"middleware/example/internal/helpers"
-	_ "middleware/example/internal/models"
+	"middleware/users/internal/controllers/collections"
+	"middleware/users/internal/helpers"
+	_ "middleware/users/internal/models"
 	"net/http"
 )
 
