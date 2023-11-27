@@ -5,6 +5,6 @@ import (
 )
 
 type Collection struct {
-	Id      *uuid.UUID `json:"id"`
-	Content string     `json:"content"`
+	Id       *uuid.UUID `json:"id"`
+	SongName string     `json:"songname"`
 }

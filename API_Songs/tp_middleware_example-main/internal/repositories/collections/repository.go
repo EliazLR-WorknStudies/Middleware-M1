@@ -1,9 +1,10 @@
 package collections
 
 import (
-	"github.com/gofrs/uuid"
 	"middleware/example/internal/helpers"
 	"middleware/example/internal/models"
+
+	"github.com/gofrs/uuid"
 )
 
 func GetAllCollections() ([]models.Collection, error) {
@@ -21,7 +22,7 @@ func GetAllCollections() ([]models.Collection, error) {
 	collections := []models.Collection{}
 	for rows.Next() {
 		var data models.Collection
-		err = rows.Scan(&data.Id, &data.Content)
+		err = rows.Scan(&data.Id, &data.SongName)
 		if err != nil {
 			return nil, err
 		}
@@ -42,7 +43,7 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 	helpers.CloseDB(db)
 
 	var collection models.Collection
-	err = row.Scan(&collection.Id, &collection.Content)
+	err = row.Scan(&collection.Id, &collection.SongName)
 	if err != nil {
 		return nil, err
 	}
