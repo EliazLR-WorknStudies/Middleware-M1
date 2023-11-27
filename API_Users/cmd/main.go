@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"middleware/users/internal/controllers/collections"
+	"middleware/users/internal/controllers/users"
 	"middleware/users/internal/helpers"
 	_ "middleware/users/internal/models"
 	"net/http"
@@ -12,11 +12,11 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	r.Route("/collections", func(r chi.Router) {
-		r.Get("/", collections.GetCollections)
+	r.Route("/users", func(r chi.Router) {
+		r.Get("/", users.GetUsers)
 		r.Route("/{id}", func(r chi.Router) {
-			r.Use(collections.Ctx)
-			r.Get("/", collections.GetCollection)
+			r.Use(users.Ctx)
+			r.Get("/", users.GetUser)
 		})
 	})
 
@@ -30,9 +30,9 @@ func init() {
 		logrus.Fatalf("error while opening database : %s", err.Error())
 	}
 	schemes := []string{
-		`CREATE TABLE IF NOT EXISTS collections (
+		`CREATE TABLE IF NOT EXISTS users (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
-			content VARCHAR(255) NOT NULL
+			username VARCHAR(255) NOT NULL
 		);`,
 	}
 	for _, scheme := range schemes {
