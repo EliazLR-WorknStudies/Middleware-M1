@@ -41,6 +41,7 @@ func GetRatingById(id uuid.UUID) (*models.Ratings, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf(id.String())
 	row := db.QueryRow("SELECT * FROM ratings WHERE id=?", id.String())
 	helpers.CloseDB(db)
 
@@ -60,8 +61,6 @@ func CreateRating(rating *models.Ratings) (*models.Ratings, error) {
 	
 	db.Exec("INSERT INTO ratings(id,idSong,idUser,comment,rating) VALUES(?,?,?,?,?);",rating.Id.String(),rating.IdSong.String(),rating.IdUser.String(),rating.Comment,strconv.Itoa(rating.Rating))
 	
-	
-	fmt.Printf("INSERT INTO ratings(id,idSong,idUser,comment,rating) VALUES(?,?,?,?,?);",rating.Id.String(),rating.IdSong.String(),rating.IdUser.String(),rating.Comment,strconv.Itoa(rating.Rating))
 	helpers.CloseDB(db)
 
 	return rating, err

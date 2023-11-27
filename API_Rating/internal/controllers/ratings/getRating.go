@@ -7,6 +7,7 @@ import (
 	"middleware/ratings/internal/models"
 	ratings "middleware/ratings/internal/services/ratings"
 	"net/http"
+	"fmt"
 )
 
 // GetRating
@@ -21,8 +22,9 @@ import (
 func GetRating(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	ratingId, _ := ctx.Value("id").(uuid.UUID)
-
+	fmt.Printf(ratingId.String())
 	rating, err := ratings.GetRatingById(ratingId)
+
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
