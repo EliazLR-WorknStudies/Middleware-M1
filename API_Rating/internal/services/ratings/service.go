@@ -47,7 +47,11 @@ func GetRatingById(id uuid.UUID) (*models.Ratings, error) {
 
 
 func CreateRating(rating *models.Ratings) (*models.Ratings, error) {
+	id, err:= uuid.NewV4()
+	rating.Id = &id
+	
 	collection, err := repository.CreateRating(rating)
+	
 	if err != nil {
 		logrus.Errorf("error adding rating : %s", err.Error())
 		return nil, &models.CustomError{

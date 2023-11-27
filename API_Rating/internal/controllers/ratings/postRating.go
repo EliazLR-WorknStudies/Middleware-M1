@@ -6,6 +6,7 @@ import (
 	"middleware/ratings/internal/models"
 	ratings "middleware/ratings/internal/services/ratings"
 	"net/http"
+	"fmt"
 )
 
 // PostRating
@@ -17,7 +18,6 @@ import (
 // @Router       /ratings [get]
 func PostRating(w http.ResponseWriter, r *http.Request) {
 	// calling service
-	//r body into model rating
 	var rating models.Ratings
 	
 	err := json.NewDecoder(r.Body).Decode(&rating)
@@ -26,7 +26,7 @@ func PostRating(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	ratings, err := ratings.CreateRating(&rating)
-
+	fmt.Printf("uwu")
 	//ERRORS TO DO ?
 	if err != nil {
 		// logging error
