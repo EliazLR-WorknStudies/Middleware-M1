@@ -5,7 +5,7 @@ import (
 	"middleware/ratings/internal/helpers"
 	"middleware/ratings/internal/models"
 	"strconv"
-	
+	"fmt"
 )
 
 func GetAllRatings() ([]models.Ratings, error) {
@@ -57,9 +57,11 @@ func CreateRating(rating *models.Ratings) (*models.Ratings, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	db.QueryRow(
-		"INSERT INTO ratings(id,idSong,idUser,comment,rating)VALUES ("+rating.Id.String()+","+rating.IdSong.String()+","+rating.IdUser.String()+","+rating.Comment+","+strconv.Itoa(rating.Rating)+")")
+	
+	db.Exec("INSERT INTO ratings(id,idSong,idUser,comment,rating) VALUES(?,?,?,?,?);",rating.Id.String(),rating.IdSong.String(),rating.IdUser.String(),rating.Comment,strconv.Itoa(rating.Rating))
+	
+	
+	fmt.Printf("INSERT INTO ratings(id,idSong,idUser,comment,rating) VALUES(?,?,?,?,?);",rating.Id.String(),rating.IdSong.String(),rating.IdUser.String(),rating.Comment,strconv.Itoa(rating.Rating))
 	helpers.CloseDB(db)
 
 	return rating, err
