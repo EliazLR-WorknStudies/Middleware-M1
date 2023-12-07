@@ -2,31 +2,31 @@ package ratings
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"middleware/ratings/internal/models"
 	ratings "middleware/ratings/internal/services/ratings"
 	"net/http"
-	
+
+	"github.com/sirupsen/logrus"
 )
 
 // PostRating
 // @Tags         ratings
-// @Summary      Get ratings.
-// @Description  Get ratings.
-// @Success      200            {array}  models.Collection
+// @Summary      Create a rating.
+// @Description  Create a rating.
+// @Success      200            {object}  models.Collection
 // @Failure      500             "Something went wrong"
 // @Router       /ratings [get]
 func PostRating(w http.ResponseWriter, r *http.Request) {
 	// calling service
 	var rating models.Ratings
-	
+
 	err := json.NewDecoder(r.Body).Decode(&rating)
-	if err != nil{
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	ratings, err := ratings.CreateRating(&rating)
-	
+
 	//ERRORS TO DO ?
 	if err != nil {
 		// logging error

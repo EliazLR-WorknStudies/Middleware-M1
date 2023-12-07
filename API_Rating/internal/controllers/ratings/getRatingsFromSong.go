@@ -10,18 +10,19 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// DeleteRating
+// GetRating
 // @Tags         ratings
-// @Summary      Delete a rating.
-// @Description  Delete a rating.
-// @Success      200            {object}  models.Collection
+// @Summary      Get all ratings of a song.
+// @Description  Get all ratings of a song.
+// @Param        id           	path      string  true  "Collection UUID formatted ID"
+// @Success      200            {array}  models.Collection
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /ratings/{id} [get]
-func DeleteRating(w http.ResponseWriter, r *http.Request) {
+func GetRatingsFromSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	ratingId, _ := ctx.Value("id").(uuid.UUID)
-	rating, err := ratings.DeleteRating(ratingId)
+	rating, err := ratings.GetRatingBySongId(ratingId)
 
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())

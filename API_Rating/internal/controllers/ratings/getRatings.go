@@ -2,16 +2,17 @@ package ratings
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"middleware/ratings/internal/models"
 	ratings "middleware/ratings/internal/services/ratings"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Getratings
 // @Tags         ratings
-// @Summary      Get ratings.
-// @Description  Get ratings.
+// @Summary      Get all ratings.
+// @Description  Get all ratings.
 // @Success      200            {array}  models.Collection
 // @Failure      500             "Something went wrong"
 // @Router       /ratings [get]

@@ -102,3 +102,30 @@ func DeleteRating(id uuid.UUID) (*models.Ratings, error) {
 
 	return &rating, err
 }
+
+func GetRatingBySongId(id uuid.UUID) ([]models.Ratings, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	fmt.Printf(id.String())
+	rows, err := db.Query("SELECT * FROM ratings WHERE idSong=?", id.String())
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+
+	ratings := []models.Ratings{}
+	for rows.Next() {
+		var data models.Ratings
+		err = rows.Scan(&data.Id, &data.IdSong, &data.IdUser, &data.Comment, &data.Rating)
+		if err != nil {
+			return nil, err
+		}
+		ratings = append(ratings, data)
+	}
+	// don't forget to close rows
+	_ = rows.Close()
+
+	return ratings, err
+}

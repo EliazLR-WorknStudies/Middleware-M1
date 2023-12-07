@@ -21,8 +21,13 @@ func main() {
 			r.Get("/", ratings.GetRating)
 			r.Put("/", ratings.PutRating)
 			r.Delete("/", ratings.DeleteRating)
-			//put
-			//delete
+		})
+	})
+
+	r.Route("/song", func(r chi.Router) {
+		r.Route("/{id}", func(r chi.Router) {
+			r.Use(ratings.Ctx)
+			r.Get("/", ratings.GetRatingsFromSong)
 		})
 	})
 

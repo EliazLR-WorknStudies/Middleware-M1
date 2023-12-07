@@ -95,3 +95,22 @@ func DeleteRating(id uuid.UUID) (*models.Ratings, error) {
 
 	return collection, err
 }
+
+func GetRatingBySongId(id uuid.UUID) ([]models.Ratings, error) {
+	collection, err := repository.GetRatingBySongId(id)
+	if err != nil {
+		if err.Error() == sql.ErrNoRows.Error() {
+			return nil, &models.CustomError{
+				Message: "collection not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving collections : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return collection, err
+}

@@ -12,9 +12,9 @@ import (
 
 // PutRating
 // @Tags         ratings
-// @Summary      Get ratings.
-// @Description  Get ratings.
-// @Success      200            {array}  models.Collection
+// @Summary      Update a rating.
+// @Description  Update a rating.
+// @Success      200            {object}  models.Collection
 // @Failure      500             "Something went wrong"
 // @Router       /ratings [get]
 func PutRating(w http.ResponseWriter, r *http.Request) {
