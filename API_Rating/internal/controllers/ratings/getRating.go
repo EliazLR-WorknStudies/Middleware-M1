@@ -15,7 +15,7 @@ import (
 // @Summary      Get a rating.
 // @Description  Get a rating.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Collection
+// @Success      200            {object}  models.Ratings
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /ratings/{id} [get]

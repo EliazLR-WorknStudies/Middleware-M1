@@ -18,21 +18,39 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/collections": {
+        "/ratings": {
             "get": {
-                "description": "Get collections.",
+                "description": "Get all ratings.",
                 "tags": [
-                    "collections"
+                    "ratings"
                 ],
-                "summary": "Get collections.",
+                "summary": "Get all ratings.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Collection"
+                                "$ref": "#/definitions/models.Ratings"
                             }
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Create a rating.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
                         }
                     },
                     "500": {
@@ -41,13 +59,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/collections/{id}": {
+        "/ratings/{id}": {
             "get": {
-                "description": "Get a collection.",
+                "description": "Get a rating.",
                 "tags": [
-                    "collections"
+                    "ratings"
                 ],
-                "summary": "Get a collection.",
+                "summary": "Get a rating.",
                 "parameters": [
                     {
                         "type": "string",
@@ -61,7 +79,81 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Collection"
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Update a rating.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Delete a rating.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/song/{id}": {
+            "get": {
+                "description": "Get all ratings of a song.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Get all ratings of a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Ratings"
+                            }
                         }
                     },
                     "422": {
@@ -75,14 +167,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Collection": {
+        "models.Ratings": {
             "type": "object",
             "properties": {
-                "content": {
+                "comment": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
+                },
+                "idSong": {
+                    "type": "string"
+                },
+                "idUser": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
                 }
             }
         }

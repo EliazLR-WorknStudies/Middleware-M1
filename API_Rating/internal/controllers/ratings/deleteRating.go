@@ -14,10 +14,10 @@ import (
 // @Tags         ratings
 // @Summary      Delete a rating.
 // @Description  Delete a rating.
-// @Success      200            {object}  models.Collection
+// @Success      200            {object}  models.Ratings
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /ratings/{id} [get]
+// @Router       /ratings/{id} [delete]
 func DeleteRating(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	ratingId, _ := ctx.Value("id").(uuid.UUID)

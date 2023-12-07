@@ -13,7 +13,7 @@ import (
 // @Tags         ratings
 // @Summary      Get all ratings.
 // @Description  Get all ratings.
-// @Success      200            {array}  models.Collection
+// @Success      200            {array}  models.Ratings
 // @Failure      500             "Something went wrong"
 // @Router       /ratings [get]
 func GetRatings(w http.ResponseWriter, _ *http.Request) {

@@ -13,9 +13,9 @@ import (
 // @Tags         ratings
 // @Summary      Create a rating.
 // @Description  Create a rating.
-// @Success      200            {object}  models.Collection
+// @Success      200            {object}  models.Ratings
 // @Failure      500             "Something went wrong"
-// @Router       /ratings [get]
+// @Router       /ratings [post]
 func PostRating(w http.ResponseWriter, r *http.Request) {
 	// calling service
 	var rating models.Ratings

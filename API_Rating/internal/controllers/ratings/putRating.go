@@ -14,9 +14,9 @@ import (
 // @Tags         ratings
 // @Summary      Update a rating.
 // @Description  Update a rating.
-// @Success      200            {object}  models.Collection
+// @Success      200            {object}  models.Ratings
 // @Failure      500             "Something went wrong"
-// @Router       /ratings [get]
+// @Router       /ratings/{id} [put]
 func PutRating(w http.ResponseWriter, r *http.Request) {
 	// calling service
 	ctx := r.Context()

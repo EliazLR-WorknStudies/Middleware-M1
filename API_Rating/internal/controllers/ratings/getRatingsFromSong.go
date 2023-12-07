@@ -15,10 +15,10 @@ import (
 // @Summary      Get all ratings of a song.
 // @Description  Get all ratings of a song.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {array}  models.Collection
+// @Success      200            {array}  models.Ratings
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /ratings/{id} [get]
+// @Router       /song/{id} [get]
 func GetRatingsFromSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	ratingId, _ := ctx.Value("id").(uuid.UUID)
