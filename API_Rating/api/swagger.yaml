@@ -1,0 +1,123 @@
+basePath: /
+definitions:
+  models.Ratings:
+    properties:
+      comment:
+        type: string
+      id:
+        type: string
+      idSong:
+        type: string
+      idUser:
+        type: string
+      rating:
+        type: integer
+    type: object
+info:
+  contact:
+    email: justine.bachelard@ext.uca.fr
+    name: Justine Bachelard.
+  description: API to manage collections.
+  title: middleware/example
+  version: 1.0.0
+paths:
+  /ratings:
+    get:
+      description: Get all ratings.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Ratings'
+            type: array
+        "500":
+          description: Something went wrong
+      summary: Get all ratings.
+      tags:
+      - ratings
+    post:
+      description: Create a rating.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ratings'
+        "500":
+          description: Something went wrong
+      summary: Create a rating.
+      tags:
+      - ratings
+  /ratings/{id}:
+    delete:
+      description: Delete a rating.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ratings'
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Delete a rating.
+      tags:
+      - ratings
+    get:
+      description: Get a rating.
+      parameters:
+      - description: Collection UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ratings'
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Get a rating.
+      tags:
+      - ratings
+    put:
+      description: Update a rating.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ratings'
+        "500":
+          description: Something went wrong
+      summary: Update a rating.
+      tags:
+      - ratings
+  /song/{id}:
+    get:
+      description: Get all ratings of a song.
+      parameters:
+      - description: Collection UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Ratings'
+            type: array
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Get all ratings of a song.
+      tags:
+      - ratings
+schemes:
+- http
+swagger: "2.0"

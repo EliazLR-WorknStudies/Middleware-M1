@@ -1,0 +1,187 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "API to manage collections.",
+        "title": "middleware/example",
+        "contact": {
+            "name": "Justine Bachelard.",
+            "email": "justine.bachelard@ext.uca.fr"
+        },
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/ratings": {
+            "get": {
+                "description": "Get all ratings.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Get all ratings.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Ratings"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Create a rating.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/ratings/{id}": {
+            "get": {
+                "description": "Get a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Get a rating.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Update a rating.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Delete a rating.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Ratings"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/song/{id}": {
+            "get": {
+                "description": "Get all ratings of a song.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Get all ratings of a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Ratings"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Ratings": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "idSong": {
+                    "type": "string"
+                },
+                "idUser": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
