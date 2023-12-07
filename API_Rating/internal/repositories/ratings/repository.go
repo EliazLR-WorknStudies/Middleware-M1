@@ -1,11 +1,12 @@
 package ratings
 
 import (
-	"github.com/gofrs/uuid"
+	"fmt"
 	"middleware/ratings/internal/helpers"
 	"middleware/ratings/internal/models"
 	"strconv"
-	"fmt"
+
+	"github.com/gofrs/uuid"
 )
 
 func GetAllRatings() ([]models.Ratings, error) {
@@ -35,7 +36,6 @@ func GetAllRatings() ([]models.Ratings, error) {
 	return ratings, err
 }
 
-
 func GetRatingById(id uuid.UUID) (*models.Ratings, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
@@ -58,10 +58,47 @@ func CreateRating(rating *models.Ratings) (*models.Ratings, error) {
 	if err != nil {
 		return nil, err
 	}
-	
-	db.Exec("INSERT INTO ratings(id,idSong,idUser,comment,rating) VALUES(?,?,?,?,?);",rating.Id.String(),rating.IdSong.String(),rating.IdUser.String(),rating.Comment,strconv.Itoa(rating.Rating))
-	
+
+	db.Exec("INSERT INTO ratings(id,idSong,idUser,comment,rating) VALUES(?,?,?,?,?);", rating.Id.String(), rating.IdSong.String(), rating.IdUser.String(), rating.Comment, strconv.Itoa(rating.Rating))
+
 	helpers.CloseDB(db)
 
 	return rating, err
+}
+
+func UpdateRating(rating *models.Ratings) (*models.Ratings, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+
+	db.Exec("UPDATE ratings SET idSong=?, idUser=?, comment=?, rating=? WHERE id=? ;", rating.IdSong.String(), rating.IdUser.String(), rating.Comment, strconv.Itoa(rating.Rating), rating.Id.String())
+
+	helpers.CloseDB(db)
+
+	return rating, err
+}
+
+func DeleteRating(id uuid.UUID) (*models.Ratings, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow("SELECT * FROM ratings WHERE id=?", id.String())
+	helpers.CloseDB(db)
+
+	var rating models.Ratings
+	err = row.Scan(&rating.Id, &rating.IdSong, &rating.IdUser, &rating.Comment, &rating.Rating)
+	if err != nil {
+		return nil, err
+	}
+
+	db, err = helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	db.QueryRow("DELETE FROM ratings WHERE id=?", id.String())
+	helpers.CloseDB(db)
+
+	return &rating, err
 }

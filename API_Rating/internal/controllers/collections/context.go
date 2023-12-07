@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"middleware/ratings/internal/models"
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/models"
-	"net/http"
 )
 
 func Ctx(next http.Handler) http.Handler {
