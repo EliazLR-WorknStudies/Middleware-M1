@@ -52,6 +52,26 @@ paths:
       tags:
       - users
   /users/{id}:
+    delete:
+      description: Delete a user.
+      parameters:
+      - description: User UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Delete a user.
+      tags:
+      - users
     get:
       description: Get a user.
       parameters:
@@ -70,6 +90,32 @@ paths:
         "500":
           description: Something went wrong
       summary: Get a user.
+      tags:
+      - users
+    put:
+      description: Update a user.
+      parameters:
+      - description: User UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User username
+        in: body
+        name: username
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Update a user.
       tags:
       - users
 schemes:

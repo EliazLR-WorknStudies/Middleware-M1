@@ -103,6 +103,75 @@ const docTemplate = `{
                         "description": "Something went wrong"
                     }
                 }
+            },
+            "put": {
+                "description": "Update a user.",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update a user.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User username",
+                        "name": "username",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a user.",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete a user.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
             }
         }
     },
