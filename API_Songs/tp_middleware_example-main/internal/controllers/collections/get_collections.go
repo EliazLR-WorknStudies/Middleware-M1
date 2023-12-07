@@ -2,17 +2,18 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/services/collections"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 // GetCollections
-// @Tags         collections
+// @Tags         songs
 // @Summary      Get collections.
 // @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// @Success      200            {array}  models.Song
 // @Failure      500             "Something went wrong"
 // @Router       /collections [get]
 func GetCollections(w http.ResponseWriter, _ *http.Request) {
@@ -37,5 +38,4 @@ func GetCollections(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(collections)
 	_, _ = w.Write(body)
-	return
 }

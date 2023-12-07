@@ -2,19 +2,20 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/gofrs/uuid"
-	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/repositories/collections"
 	"net/http"
+
+	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 // GetCollection
-// @Tags         collections
+// @Tags         songs
 // @Summary      Get a collection.
 // @Description  Get a collection.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Collection
+// @Success      200            {object}  models.Song
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /collections/{id} [get]
@@ -39,5 +40,4 @@ func GetCollection(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(collection)
 	_, _ = w.Write(body)
-	return
 }

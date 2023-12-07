@@ -4,12 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"middleware/example/internal/models"
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/models"
-	"net/http"
 )
+
+// Ici la fonction Ctx fait la requête et nous permet de savoir si on peut récupérer l'ID
 
 func Ctx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +27,7 @@ func Ctx(next http.Handler) http.Handler {
 			body, _ := json.Marshal(customError)
 			_, _ = w.Write(body)
 			return
+
 		}
 
 		ctx := context.WithValue(r.Context(), "collectionId", collectionId)

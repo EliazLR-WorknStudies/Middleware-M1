@@ -13,12 +13,14 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	r.Route("/collections", func(r chi.Router) {
+	r.Route("/songs", func(r chi.Router) {
 		r.Get("/", collections.GetCollections)
+		r.Post("/", collections.CreateCollection)
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(collections.Ctx)
 			r.Get("/", collections.GetCollection)
-			r.Put("/", collections.GetCollection)
+			r.Put("/", collections.UpdateCollection)
+			r.Delete("/", collections.DeleteCollection)
 		})
 	})
 
@@ -32,9 +34,12 @@ func init() {
 		logrus.Fatalf("error while opening database : %s", err.Error())
 	}
 	schemes := []string{
-		`CREATE TABLE IF NOT EXISTS collections (
+		`CREATE TABLE IF NOT EXISTS songs (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
-			songName VARCHAR(255) NOT NULL
+			songName VARCHAR(255) NOT NULL,
+			songAuthor VARCHAR(255) NOT NULL,
+			songGenre VARCHAR(255) NOT NULL
+
 		);`,
 	}
 	for _, scheme := range schemes {
