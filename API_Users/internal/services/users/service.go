@@ -44,3 +44,18 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 
 	return user, err
 }
+
+func CreateUserByUsername(user *models.User) (*models.User, error) {
+	id := uuid.Must(uuid.NewV4())
+	user.Id = &id
+	err := repository.CreateUser(user)
+	if err != nil {
+		logrus.Errorf("error creating user : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return user, nil
+}

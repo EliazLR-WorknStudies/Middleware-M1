@@ -48,3 +48,16 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	}
 	return &user, err
 }
+
+func CreateUser(user *models.User) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("INSERT INTO users (id, username) VALUES (?, ?)", user.Id, user.Username)
+	helpers.CloseDB(db)
+	if err != nil {
+		return err
+	}
+	return nil
+}
