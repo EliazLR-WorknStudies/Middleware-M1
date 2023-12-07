@@ -18,8 +18,6 @@ import (
 // @Failure      500            "Something went wrong"
 // @Router       /users [post]
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	logrus.Infof("PostUser")
-
 	// parsing body
 	var user *models.User
 	err := json.NewDecoder(r.Body).Decode(&user)
