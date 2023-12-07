@@ -61,3 +61,29 @@ func CreateUser(user *models.User) error {
 	}
 	return nil
 }
+
+func DeleteUser(id uuid.UUID) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("DELETE FROM users WHERE id=?", id)
+	helpers.CloseDB(db)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func UpdateUser(user *models.User) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec("UPDATE users SET username=? WHERE id=?", user.Username, user.Id)
+	helpers.CloseDB(db)
+	if err != nil {
+		return err
+	}
+	return nil
+}

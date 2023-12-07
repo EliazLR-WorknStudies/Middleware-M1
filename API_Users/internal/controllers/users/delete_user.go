@@ -9,20 +9,21 @@ import (
 	"net/http"
 )
 
-// GetUser
+// DeleteUser
 // @Tags         users
-// @Summary      Get a user.
-// @Description  Get a user.
+// @Summary      Delete a user.
+// @Description  Delete a user.
 // @Param        id           	path      string  true  "User UUID formatted ID"
-// @Success      200            {object}  models.User
+// @Success      200            {object}  string
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /users/{id} [get]
-func GetUser(w http.ResponseWriter, r *http.Request) {
+// @Router       /users/{id} [delete]
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	userId, _ := ctx.Value("userId").(uuid.UUID)
 
-	user, err := users.GetUserById(userId)
+	err := users.DeleteUserById(userId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -37,7 +38,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(user)
+	body, _ := json.Marshal("User deleted")
 	_, _ = w.Write(body)
 	return
 }
