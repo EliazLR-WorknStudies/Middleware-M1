@@ -30,6 +30,27 @@ paths:
       summary: Get users.
       tags:
       - users
+    post:
+      description: Creates a user with username.
+      parameters:
+      - description: Username
+        in: body
+        name: username
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "422":
+          description: Cannot parse username
+        "500":
+          description: Something went wrong
+      summary: Creates a user with username.
+      tags:
+      - users
   /users/{id}:
     get:
       description: Get a user.
