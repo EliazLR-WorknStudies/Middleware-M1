@@ -12,8 +12,8 @@ import (
 
 // DeleteCollection
 // @Tags         songs
-// @Summary      Delete a collection.
-// @Description  Delete a collection.
+// @Summary      Delete a song.
+// @Description  Delete a song.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
 // @Success      200            {object}  models.Song
 // @Failure      500            "Something went wrong"

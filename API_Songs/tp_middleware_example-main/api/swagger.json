@@ -16,18 +16,18 @@
     "paths": {
         "/collections": {
             "get": {
-                "description": "Get collections.",
+                "description": "Get songs.",
                 "tags": [
-                    "collections"
+                    "songs"
                 ],
-                "summary": "Get collections.",
+                "summary": "Get songs.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Collection"
+                                "$ref": "#/definitions/models.Song"
                             }
                         }
                     },
@@ -35,15 +35,13 @@
                         "description": "Something went wrong"
                     }
                 }
-            }
-        },
-        "/collections/{id}": {
-            "get": {
-                "description": "Get a collection.",
+            },
+            "delete": {
+                "description": "Delete a song.",
                 "tags": [
-                    "collections"
+                    "songs"
                 ],
-                "summary": "Get a collection.",
+                "summary": "Delete a song.",
                 "parameters": [
                     {
                         "type": "string",
@@ -57,7 +55,36 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Collection"
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/collections/{id}": {
+            "get": {
+                "description": "Get a song.",
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Get a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
                         }
                     },
                     "422": {
@@ -67,17 +94,95 @@
                         "description": "Something went wrong"
                     }
                 }
+            },
+            "put": {
+                "description": "Update a song.",
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Update a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Song object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song object",
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a song.",
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Create a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Song object",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Song object",
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
             }
         }
     },
     "definitions": {
-        "models.Collection": {
+        "models.Song": {
             "type": "object",
             "properties": {
-                "content": {
+                "id": {
                     "type": "string"
                 },
-                "id": {
+                "songauthor": {
+                    "type": "string"
+                },
+                "songgenre": {
+                    "type": "string"
+                },
+                "songname": {
                     "type": "string"
                 }
             }

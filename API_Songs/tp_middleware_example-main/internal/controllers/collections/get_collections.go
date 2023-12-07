@@ -9,10 +9,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// GetCollections
+// GetSongs
 // @Tags         songs
-// @Summary      Get collections.
-// @Description  Get collections.
+// @Summary      Get songs.
+// @Description  Get songs.
 // @Success      200            {array}  models.Song
 // @Failure      500             "Something went wrong"
 // @Router       /collections [get]

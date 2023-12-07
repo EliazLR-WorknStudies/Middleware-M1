@@ -10,14 +10,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// UpdateCollection
+// UpdateSong
 // @Tags         songs
-// @Summary      Update a collection.
-// @Description  Update a collection.
+// @Summary      Update a song.
+// @Description  Update a song.
 // @Param        id            	path      string  	   true  "Collection UUID formatted ID"
-// @Param        body          {object}   models.Song  true  "Song object"
-// @Success      200            {object}  models.Song
-// @Failure      500            "Something went wrong"
+// @Param        body           body      models.Song  true  "Song object"
+// @Success      200            {object}  models.Song        "Song object"
+// @Failure      500           								 "Something went wrong"
 // @Router       /collections/{id} [put]
 func UpdateCollection(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()

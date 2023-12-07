@@ -11,13 +11,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// CreateCollection
-// @Tags         collections
-// @Summary      Create a collection.
-// @Description  Create a collection.
-// @Param        id            	path      string  	   true  "Collection UUID formatted ID"
-// @Param        body          {object}   models.Song  true  "string"
-// @Success      200            {object}  models.Song
+// CreateSong
+// @Tags         songs
+// @Summary      Create a song.
+// @Description  Create a song.
+// @Param        id            	path       string  	    true  "Collection UUID formatted ID"
+// @Param        body           body	   models.Song  true  "Song object"
+// @Success      200            {object}   models.Song        "Song object"
 // @Failure      500            "Something went wrong"
 // @Router       /collections/{id} [post]
 func CreateCollection(w http.ResponseWriter, r *http.Request) {

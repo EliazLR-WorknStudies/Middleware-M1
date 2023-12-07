@@ -12,8 +12,8 @@ import (
 
 // GetCollection
 // @Tags         songs
-// @Summary      Get a collection.
-// @Description  Get a collection.
+// @Summary      Get a song.
+// @Description  Get a song.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
 // @Success      200            {object}  models.Song
 // @Failure      422            "Cannot parse id"
