@@ -2,11 +2,12 @@ package users
 
 import (
 	"encoding/json"
-	"github.com/gofrs/uuid"
-	"github.com/sirupsen/logrus"
 	"middleware/users/internal/models"
 	"middleware/users/internal/services/users"
 	"net/http"
+
+	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 // DeleteUser

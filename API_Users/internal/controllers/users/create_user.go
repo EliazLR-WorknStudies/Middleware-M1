@@ -2,10 +2,11 @@ package users
 
 import (
 	"encoding/json"
-	"github.com/sirupsen/logrus"
 	"middleware/users/internal/models"
 	"middleware/users/internal/services/users"
 	"net/http"
+
+	"github.com/sirupsen/logrus"
 )
 
 // CreateUser
@@ -13,7 +14,7 @@ import (
 // @Summary      Creates a user with username.
 // @Description  Creates a user with username.
 // @Param        username      body      string  true  "Username"
-// @Success      200            {object}  models.User
+// @Success      201            {object}  models.User
 // @Failure      422            "Cannot parse username"
 // @Failure      500            "Something went wrong"
 // @Router       /users [post]
@@ -48,7 +49,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	body, _ := json.Marshal(user)
 	_, _ = w.Write(body)
 	return

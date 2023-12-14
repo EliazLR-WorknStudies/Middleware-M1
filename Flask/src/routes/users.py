@@ -11,6 +11,9 @@ import src.services.users as users_service
 # from routes import users
 users = Blueprint(name="users", import_name=__name__)
 
+@users.route('/', methods=['GET'])
+def get_users():
+    return users_service.get_users()
 
 @users.route('/<id>', methods=['GET'])
 # @login_required
@@ -55,7 +58,8 @@ def get_user(id):
 
 
 @users.route('/<id>', methods=['PUT'])
-@login_required
+# @login_required
+
 def put_user(id):
     """
     ---

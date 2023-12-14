@@ -13,12 +13,18 @@ import src.repositories.users as users_repository
 users_url = "http://localhost:8081/users/"  # URL de l'API users (golang)
 
 
+def get_users():
+    response = requests.request(method="GET", url=users_url)
+    return response.json(), response.status_code
+
+
 def get_user(id):
     response = requests.request(method="GET", url=users_url+id)
     return response.json(), response.status_code
 
 
 def create_user(user_register):
+    print("coucou")
     # on récupère le modèle utilisateur pour la BDD
     user_model = UserModel.from_dict_with_clear_password(user_register)
     # on récupère le schéma utilisateur pour la requête vers l'API users
@@ -33,6 +39,7 @@ def create_user(user_register):
     # pour que les données entre API et BDD correspondent
     try:
         user_model.id = response.json()["id"]
+        print(user_model)
         users_repository.add_user(user_model)
     except Exception:
         raise SomethingWentWrong
@@ -42,8 +49,10 @@ def create_user(user_register):
 
 def modify_user(id, user_update):
     # on vérifie que l'utilisateur se modifie lui-même
+    """
     if id != current_user.id:
         raise Forbidden
+    """
 
     # s'il y a quelque chose à changer côté API (username, name)
     user_schema = UserSchema().loads(json.dumps(user_update), unknown=EXCLUDE)
@@ -53,19 +62,24 @@ def modify_user(id, user_update):
         response = requests.request(method="PUT", url=users_url+id, json=user_schema)
         if response.status_code != 200:
             return response.json(), response.status_code
-
     # s'il y a quelque chose à changer côté BDD
+    # LE PROBLEME EST ICI AHAH
     user_model = UserModel.from_dict_with_clear_password(user_update)
+    
     if not user_model.is_empty():
+
         user_model.id = id
         found_user = users_repository.get_user_from_id(id)
         if not user_model.username:
             user_model.username = found_user.username
-        if not user_model.encrypted_password:
-            user_model.encrypted_password = found_user.encrypted_password
+        # if not user_model.encrypted_password:
+            # user_model.encrypted_password = found_user.encrypted_password
         try:
+            print("coucou")
             users_repository.update_user(user_model)
+            print("coucou")
         except exc.IntegrityError as e:
+            print("coucou")
             if "NOT NULL" in e.orig.args[0]:
                 raise UnprocessableEntity
             raise Conflict
