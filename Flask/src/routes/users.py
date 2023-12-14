@@ -13,7 +13,7 @@ users = Blueprint(name="users", import_name=__name__)
 
 
 @users.route('/<id>', methods=['GET'])
-@login_required
+# @login_required
 def get_user(id):
     """
     ---

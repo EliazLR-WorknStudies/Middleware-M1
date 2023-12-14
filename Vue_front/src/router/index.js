@@ -37,6 +37,7 @@ const router = createRouter({
                     path: 'account',
                     name: 'account',
                     component: Account,
+                    meta: {guestAllowed: true},
                     children: [
                         {
                             path: 'profile',
