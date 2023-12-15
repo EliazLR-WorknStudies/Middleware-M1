@@ -67,15 +67,15 @@ def login():
     # logger l'utilisateur
     try:
         user = auth_service.login(user_login)
+
     except (NotFound, Unauthorized):
         error = UnauthorizedSchema().loads("{}")
         return error, error.get("code")
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
-
     login_user(user, remember=True)
-    return "Utilisateur connecté", 200
+    return "Connexion réussie", 200
 
 
 @auth.route('/logout', methods=['POST'])
@@ -164,7 +164,7 @@ def register():
     try:
         user_register = UserRegisterSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
-
+  
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
 
@@ -179,7 +179,8 @@ def register():
 
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")
-
+    
+    return "Utilisateur inscrit", 200
 
 @auth.route('/introspect', methods=["GET"])
 @login_required
@@ -208,3 +209,18 @@ def introspect():
           - users
     """
     return users_service.get_user(current_user.id)
+
+@auth.route('/delete', methods=['DELETE'])
+@login_required
+def delete_user():
+  # modification de l'utilisateur (username, nom, mot de passe, etc.)
+    
+    try:
+        users_service.delete_account(current_user.id)
+    except Forbidden:
+        error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+    return "Compte supprimé", 204

@@ -2,7 +2,7 @@ import json
 import requests
 from sqlalchemy import exc
 from marshmallow import EXCLUDE
-from flask_login import current_user
+from flask_login import current_user, logout_user
 
 from src.schemas.user import UserSchema
 from src.models.user import User as UserModel
@@ -29,11 +29,8 @@ def create_user(user_register):
     user_model = UserModel.from_dict_with_clear_password(user_register)
     # on récupère le schéma utilisateur pour la requête vers l'API users
     user_schema = UserSchema().loads(json.dumps(user_register), unknown=EXCLUDE)
-    print(user_schema)
     # on crée l'utilisateur côté API users
-    # ça pose problème ici
     response = requests.request(method="POST", url=users_url, json=user_schema)
-    print(response)
     if response.status_code != 201:
         return response.json(), response.status_code
     
@@ -42,7 +39,6 @@ def create_user(user_register):
     # pour que les données entre API et BDD correspondent
     try:
         user_model.id = response.json()["id"]
-        print(user_model)
         users_repository.add_user(user_model)
     except Exception:
         raise SomethingWentWrong
@@ -50,12 +46,36 @@ def create_user(user_register):
     return response.json(), response.status_code
 
 
+def delete_account(id):
+
+    # Déconnexion de session avant suppression
+
+    logout_user() 
+    
+    # On effectue la fonction DELETE sur l'API song
+    response = requests.request(method="DELETE", url=users_url+id, json=None) 
+
+    #On vérifie que le retour est bien le bon
+    if response.status_code != 204:
+            return response.json(), response.status_code
+
+   
+    # On s'occupe des choses à changer côté BDD Flask
+    try:
+        users_repository.delete_user(id)
+    except Exception:
+        raise SomethingWentWrong
+ 
+
+    
+
+
 def modify_user(id, user_update):
     # on vérifie que l'utilisateur se modifie lui-même
-    """
+    
     if id != current_user.id:
         raise Forbidden
-    """
+    
 
     # s'il y a quelque chose à changer côté API (username, name)
     user_schema = UserSchema().loads(json.dumps(user_update), unknown=EXCLUDE)

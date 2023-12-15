@@ -2,6 +2,8 @@ import json
 from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
+# IMPORT A EFFACER EN FIN D'EXERCICE
+from Flask.src import repositories
 
 from src.models.http_exceptions import *
 from src.schemas.user import UserUpdateSchema
@@ -12,11 +14,12 @@ import src.services.users as users_service
 users = Blueprint(name="users", import_name=__name__)
 
 @users.route('/', methods=['GET'])
+@login_required
 def get_users():
     return users_service.get_users()
 
 @users.route('/<id>', methods=['GET'])
-# @login_required
+@login_required
 def get_user(id):
     """
     ---
@@ -56,10 +59,23 @@ def get_user(id):
     """
     return users_service.get_user(id)
 
+#debug only !
+@users.route('/<id>', methods=['DELETE'])
+def delete_admin(id):
+  # modification de l'utilisateur (username, nom, mot de passe, etc.)
+    try:
+        users_service.delete_account(id)
+    except Forbidden:
+        error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+    return "Compte supprimé", 204
+
 
 @users.route('/<id>', methods=['PUT'])
-# @login_required
-
+@login_required
 def put_user(id):
     """
     ---
