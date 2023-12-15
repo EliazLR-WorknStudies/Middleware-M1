@@ -13,7 +13,7 @@ import (
 // @Tags         ratings
 // @Summary      Create a rating.
 // @Description  Create a rating.
-// @Success      200            {object}  models.Ratings
+// @Success      201            {object}  models.Ratings
 // @Failure      500             "Something went wrong"
 // @Router       /ratings [post]
 func PostRating(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +44,7 @@ func PostRating(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	body, _ := json.Marshal(ratings)
 	_, _ = w.Write(body)
 	return

@@ -17,7 +17,7 @@ import (
 // @Description  Create a song.
 // @Param        id            	path       string  	    true  "Collection UUID formatted ID"
 // @Param        body           body	   models.Song  true  "Song object"
-// @Success      200            {object}   models.Song        "Song object"
+// @Success      201            {object}   models.Song        "Song object"
 // @Failure      500            "Something went wrong"
 // @Router       /collections/{id} [post]
 func CreateCollection(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +53,7 @@ func CreateCollection(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Song created successfully"))
 
 }

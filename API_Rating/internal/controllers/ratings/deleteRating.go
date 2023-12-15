@@ -14,7 +14,7 @@ import (
 // @Tags         ratings
 // @Summary      Delete a rating.
 // @Description  Delete a rating.
-// @Success      200            {object}  models.Ratings
+// @Success      204            {object}  models.Ratings
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /ratings/{id} [delete]
@@ -36,7 +36,7 @@ func DeleteRating(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 	body, _ := json.Marshal(rating)
 	_, _ = w.Write(body)
 	return

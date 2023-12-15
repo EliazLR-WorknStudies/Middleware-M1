@@ -37,7 +37,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 	body, _ := json.Marshal("User deleted")
 	_, _ = w.Write(body)
 	return

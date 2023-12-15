@@ -15,7 +15,7 @@ import (
 // @Summary      Delete a song.
 // @Description  Delete a song.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Song
+// @Success      204            {object}  models.Song
 // @Failure      500            "Something went wrong"
 // @Router       /collections [delete]
 func DeleteCollection(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +38,6 @@ func DeleteCollection(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 	w.Write([]byte("Song deleted successfully"))
 }
