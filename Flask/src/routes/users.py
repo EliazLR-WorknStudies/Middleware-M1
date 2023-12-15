@@ -2,8 +2,6 @@ import json
 from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
-# IMPORT A EFFACER EN FIN D'EXERCICE
-from Flask.src import repositories
 
 from src.models.http_exceptions import *
 from src.schemas.user import UserUpdateSchema
