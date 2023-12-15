@@ -20,8 +20,7 @@ def update_user(user):
     existing_user = get_user_from_id(user.id)
     print(existing_user)
     existing_user.username = user.username
-    
-    # existing_user.encrypted_password = user.encrypted_password
+    existing_user.encrypted_password = user.encrypted_password
     db.session.commit()
 
 

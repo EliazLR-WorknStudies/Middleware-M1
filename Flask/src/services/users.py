@@ -24,17 +24,20 @@ def get_user(id):
 
 
 def create_user(user_register):
-    print("coucou")
+
     # on récupère le modèle utilisateur pour la BDD
     user_model = UserModel.from_dict_with_clear_password(user_register)
     # on récupère le schéma utilisateur pour la requête vers l'API users
     user_schema = UserSchema().loads(json.dumps(user_register), unknown=EXCLUDE)
-
+    print(user_schema)
     # on crée l'utilisateur côté API users
+    # ça pose problème ici
     response = requests.request(method="POST", url=users_url, json=user_schema)
+    print(response)
     if response.status_code != 201:
         return response.json(), response.status_code
-
+    
+    # 200 SUCCESS / 201 CREATED / 204 NOCONTENT
     # on ajoute l'utilisateur dans la base de données
     # pour que les données entre API et BDD correspondent
     try:
@@ -72,14 +75,11 @@ def modify_user(id, user_update):
         found_user = users_repository.get_user_from_id(id)
         if not user_model.username:
             user_model.username = found_user.username
-        # if not user_model.encrypted_password:
-            # user_model.encrypted_password = found_user.encrypted_password
+        if not user_model.encrypted_password:
+            user_model.encrypted_password = found_user.encrypted_password
         try:
-            print("coucou")
             users_repository.update_user(user_model)
-            print("coucou")
         except exc.IntegrityError as e:
-            print("coucou")
             if "NOT NULL" in e.orig.args[0]:
                 raise UnprocessableEntity
             raise Conflict

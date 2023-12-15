@@ -75,7 +75,7 @@ def login():
         return error, error.get("code")
 
     login_user(user, remember=True)
-    return "", 200
+    return "Utilisateur connecté", 200
 
 
 @auth.route('/logout', methods=['POST'])
@@ -95,7 +95,7 @@ def logout():
           - users
     """
     logout_user()
-    return "", 200
+    return "Utilisateur déconnecté", 200
 
 
 @auth.route('/register', methods=['POST'])
@@ -164,16 +164,19 @@ def register():
     try:
         user_register = UserRegisterSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
+
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
 
     # enregistrer l'utilisateur
     try:
+
         return auth_service.register(user_register)
     except Conflict:
         error = ConflictSchema().loads(json.dumps({"message": "User already exists"}))
         return error, error.get("code")
     except SomethingWentWrong:
+
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")
 

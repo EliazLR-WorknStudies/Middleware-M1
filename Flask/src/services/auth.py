@@ -9,6 +9,7 @@ def login(user_login):
     existing_user = users_service.get_user_from_db(user_login.get("username"))
     if existing_user:
         # on vérifie son mot de passe
+        print("test")
         if not check_password_hash(existing_user.encrypted_password, user_login.get("password")):
             raise Unauthorized
     else:
@@ -20,10 +21,12 @@ def login(user_login):
 def register(user_register):
     # on vérifie que l'utilisateur n'existe pas déjà
     if users_service.user_exists(user_register.get("username")):
+        print("coucou2")
         raise Conflict
 
     # on crée l'utilisateur
     try:
+        print("coucou3")
         return users_service.create_user(user_register)
     except Exception:
         raise SomethingWentWrong

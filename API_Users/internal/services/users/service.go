@@ -3,11 +3,12 @@ package users
 import (
 	"database/sql"
 	"errors"
-	"github.com/gofrs/uuid"
-	"github.com/sirupsen/logrus"
 	"middleware/users/internal/models"
 	repository "middleware/users/internal/repositories/users"
 	"net/http"
+
+	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 func GetAllUsers() ([]models.User, error) {

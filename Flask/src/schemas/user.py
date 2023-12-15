@@ -38,8 +38,8 @@ class BaseUserSchema(Schema):
 class UserUpdateSchema(BaseUserSchema):
     # permet de définir dans quelles conditions le schéma est validé ou nom
     @validates_schema
+    # ("name" in data and data["name"] != "") or
     def validates_schemas(self, data, **kwargs):
-        if not (("name" in data and data["name"] != "") or
-                ("username" in data and data["username"] != "") or
+        if not (("username" in data and data["username"] != "") or
                 ("password" in data and data["password"] != "")):
-            raise ValidationError("at least one of ['name','username','password'] must be specified")
+            raise ValidationError("at least one of ['username','password'] must be specified")
