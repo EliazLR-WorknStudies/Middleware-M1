@@ -52,8 +52,10 @@ def login():
           - auth
           - users
     """
+    
     if current_user.is_authenticated:
         error = ForbiddenSchema().loads(json.dumps({"message": "Already logged in"}))
+        # error = JSON message and 203 in code
         return error, error.get("code")
 
     # parser le body
@@ -180,7 +182,6 @@ def register():
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")
     
-    return "Utilisateur inscrit", 200
 
 @auth.route('/introspect', methods=["GET"])
 @login_required
@@ -211,16 +212,39 @@ def introspect():
     return users_service.get_user(current_user.id)
 
 @auth.route('/delete', methods=['DELETE'])
+
 @login_required
 def delete_user():
+  """
+  ---
+  delete:
+    description: Delete a user
+    responses:
+      '204':
+        description: No centent
+        content:
+          application/json:
+            schema: User
+          application/yaml:
+            schema: User
+      '401':
+        description: Unauthorized
+        content:
+          application/json:
+            schema: Unauthorized
+          application/yaml:
+            schema: Unauthorized
+    tags:
+        - users
+    """
   # modification de l'utilisateur (username, nom, mot de passe, etc.)
     
-    try:
-        users_service.delete_account(current_user.id)
-    except Forbidden:
-        error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
-        return error, error.get("code")
-    except Exception:
-        error = SomethingWentWrongSchema().loads("{}")
-        return error, error.get("code")
-    return "Compte supprimé", 204
+  try:
+    users_service.delete_account(current_user.id)
+  except Forbidden:
+      error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
+      return error, error.get("code")
+  except Exception:
+      error = SomethingWentWrongSchema().loads("{}")
+      return error, error.get("code")
+  return "Compte supprimé", 204

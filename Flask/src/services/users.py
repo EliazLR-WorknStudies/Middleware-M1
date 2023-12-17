@@ -21,6 +21,7 @@ def get_users():
 def get_user(id):
     response = requests.request(method="GET", url=users_url+id)
     return response.json(), response.status_code
+ 
 
 
 def create_user(user_register):

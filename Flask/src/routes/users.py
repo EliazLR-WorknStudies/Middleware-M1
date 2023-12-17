@@ -14,6 +14,28 @@ users = Blueprint(name="users", import_name=__name__)
 @users.route('/', methods=['GET'])
 @login_required
 def get_users():
+    """
+    ---
+    get:
+      description: Getting users
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+      tags:
+          - users
+    """
     return users_service.get_users()
 
 @users.route('/<id>', methods=['GET'])
@@ -55,6 +77,7 @@ def get_user(id):
       tags:
           - users
     """
+    
     return users_service.get_user(id)
 
 #debug only !

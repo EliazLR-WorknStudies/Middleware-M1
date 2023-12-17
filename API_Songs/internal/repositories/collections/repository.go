@@ -39,6 +39,7 @@ func GetCollectionById(id uuid.UUID) (*models.Song, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	row := db.QueryRow("SELECT * FROM songs WHERE id=?", id.String())
 	helpers.CloseDB(db)
 
