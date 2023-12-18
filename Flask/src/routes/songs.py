@@ -4,10 +4,12 @@ from flask_login import login_required
 from marshmallow import ValidationError
 from Flask.src.schemas.song import SongSchema
 from Flask.src.schemas.user import UserUpdateSchema
+from Flask.src.schemas.ratings import RatingSchema
 
 from src.models.http_exceptions import *
 from src.schemas.errors import *
 import src.services.songs as songs_service
+import src.services.ratings as ratings_service
 
 # from routes import users
 songs = Blueprint(name="songs", import_name=__name__)
@@ -141,10 +143,10 @@ def delete_song(id):
   """
   ---
   delete:
-    description: Delete a user
+    description: Delete a song
     responses:
       '204':
-        description: No centent
+        description: No content
         content:
           application/json:
             schema: User
@@ -158,7 +160,7 @@ def delete_song(id):
           application/yaml:
             schema: Unauthorized
     tags:
-        - users
+        - songs
     """
 
     
@@ -248,9 +250,9 @@ def update_song(id):
 
 
 
-@songs.route('/<id>/ratings', methods=['GET'])
+@songs.route('/<id_song>/ratings', methods=['GET'])
 # @login_required
-def get_ratings(id):
+def get_ratings_from_song(id_song):
     """
     ---
     get:
@@ -289,11 +291,11 @@ def get_ratings(id):
           - songs
     """
     
-    return songs_service.get_ratings(id)
+    return ratings_service.get_ratings(id_song)
 
 @songs.route('/<id_song>/ratings/<id_rating>', methods=['GET'])
 # @login_required
-def get_rating(id_song, id_rating):
+def get_rating(id_rating):
     """
     ---
     get:
@@ -301,11 +303,6 @@ def get_rating(id_song, id_rating):
 
       parameters:
         - in: path
-          name: id_song
-          schema:
-            type: uuidv4
-          required: true
-          description: UUID of song id
           name: id_rating
           schema:
             type: uuidv4
@@ -337,7 +334,7 @@ def get_rating(id_song, id_rating):
           - songs
     """
     try:
-        return songs_service.get_rating(id_song, id_rating)
+        return ratings_service.get_rating(id_rating)
     except NotFound: 
           error = NotFoundSchema().loads(json.dumps({"message": "Can't manage other users"}))
           return error, error.get("code")
@@ -345,4 +342,77 @@ def get_rating(id_song, id_rating):
           error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
           return error, error.get("code")
     
-  
+
+@songs.route('/<id_song>/ratings', methods=['POST'])
+# @login_required
+def add_rating(id_song):
+    """
+    ---
+    post:
+      description: creating a new rating for a song
+
+      parameters:
+        - in: path
+          name: id_song
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema: Rating Schema
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema: InternalServerError
+            application/yaml:
+              schema: InternalServerError
+      tags:
+          - raiting
+    """
+    
+    try:
+        raiting_scheme = RatingSchema().loads(json_data=request.data.decode('utf-8'))
+    except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+
+    # enregistrer le commentaire
+    try:
+        return ratings_service.add_rating(id, raiting_scheme)
+    except SomethingWentWrong:
+        error = UnprocessableEntitySchema().loads("{}")
+        return error, error.get("code")
+

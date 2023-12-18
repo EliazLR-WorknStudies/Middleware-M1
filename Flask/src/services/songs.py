@@ -99,21 +99,6 @@ def delete_song(id):
     return response.text, response.status_code
  
 
-
-
-def get_ratings(id_song, id_rating):
-    
-    ratings_response = requests.request(method="GET", url=ratings_url+"song/"+id)
-    ratings_from_song = ratings_response.json()
-
-    return ratings_from_song, ratings_response.status_code
-
-def get_rating(id_song, id_rating):
-    ratings_response = requests.request(method="GET", url=ratings_url+"ratings/"+id_rating)
-    rating_from_song = ratings_response.json()
-    
-    return rating_from_song, ratings_response.status_code
-
 def unify_song_ratings(song, ratings):
     song_with_rating = {
         "author": song["songauthor"],
