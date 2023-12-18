@@ -61,7 +61,12 @@ func PutCollectionById(id uuid.UUID, songName string, songAuthor string, songGen
 func PostCollectionById(id uuid.UUID, songName string, songAuthor string, songGenre string) (*models.Song, error) {
 	_, err := repository.CreateCollectionByRepo(id, songName, songAuthor, songGenre)
 	if err != nil {
-
+		if err.Error() == sql.ErrNoRows.Error() {
+			return nil, &models.CustomError{
+				Message: "collection not found",
+				Code:    http.StatusNotFound,
+			}
+		}
 		logrus.Errorf("error updating song : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",

@@ -4,6 +4,7 @@ import requests
 from sqlalchemy import exc
 from marshmallow import EXCLUDE
 from flask_login import current_user, logout_user
+from Flask.src.schemas.song import SongSchema
 
 from src.models.http_exceptions import *
 import src.repositories.users as users_repository
@@ -46,6 +47,59 @@ def get_songs():
         song_ratings = unify_song_ratings(song, ratings)
         songs_with_ratings.append(song_ratings)
     return songs_with_ratings
+
+def add_song(song_scheme):
+
+    # on récupère le schéma utilisateur pour la requête vers l'API users
+    song_schema = SongSchema().loads(json.dumps(song_scheme), unknown=EXCLUDE)
+    # on crée l'utilisateur côté API users
+    print(song_schema)
+
+    response = requests.request(method="POST", url=songs_url, json=song_schema)
+
+    if response.status_code != 201:
+        return response.json(), response.status_code
+    
+    # 200 SUCCESS / 201 CREATED / 204 NOCONTENT
+    # on ajoute l'utilisateur dans la base de données
+    # pour que les données entre API et BDD correspondent
+
+    return get_song(response.text), response.status_code
+
+def update_song(song_scheme, id):
+
+    # on récupère le schéma utilisateur pour la requête vers l'API users
+    song_schema = SongSchema().loads(json.dumps(song_scheme), unknown=EXCLUDE)
+    # on crée l'utilisateur côté API users
+    print(song_schema)
+
+    response = requests.request(method="PUT", url=songs_url+id, json=song_schema)
+    print(response.status_code)
+    if response.status_code != 200:
+        return response.json(), response.status_code
+    
+    # 200 SUCCESS / 201 CREATED / 204 NOCONTENT
+    # on ajoute l'utilisateur dans la base de données
+    # pour que les données entre API et BDD correspondent
+
+    return get_song(id), response.status_code
+
+
+def delete_song(id):
+
+ 
+    
+    # On effectue la fonction DELETE sur l'API song
+    response = requests.request(method="DELETE", url=songs_url+id, json=None) 
+    print(response.text, response.status_code)
+    #On vérifie que le retour est bien le bon
+    if response.status_code != 204:
+            return response.json(), response.status_code
+    
+    return response.text, response.status_code
+ 
+
+
 
 def get_ratings(id_song, id_rating):
     

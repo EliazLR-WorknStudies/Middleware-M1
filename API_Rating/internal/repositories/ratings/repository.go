@@ -109,13 +109,11 @@ func GetRatingBySongId(id uuid.UUID) ([]models.Ratings, error) {
 		return nil, err
 	}
 	// fmt.Printf(id.String())
-	print("coucou")
 	rows, err := db.Query("SELECT * FROM ratings WHERE idSong=?", id.String())
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
 	}
-	print("coucou")
 	ratings := []models.Ratings{}
 	for rows.Next() {
 		var data models.Ratings
@@ -125,7 +123,6 @@ func GetRatingBySongId(id uuid.UUID) ([]models.Ratings, error) {
 		}
 		ratings = append(ratings, data)
 	}
-	print("coucou")
 	// don't forget to close rows
 	_ = rows.Close()
 

@@ -77,12 +77,10 @@ func CreateCollectionByRepo(id uuid.UUID, songName string, songAuthor string, so
 	_, err = db.Exec("INSERT INTO songs (id, songName, songAuthor, songGenre) VALUES (?, ?, ?, ?)", id.String(), songName, songAuthor, songGenre)
 	helpers.CloseDB(db)
 
-	var collection models.Song
-	//row.Scan(&collection.Id, &collection.SongName)
 	if err != nil {
 		return nil, err
 	}
-	return &collection, err
+	return nil, err
 }
 
 func DeleteCollectionByRepo(id uuid.UUID) (*models.Song, error) {

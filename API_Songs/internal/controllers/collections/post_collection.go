@@ -54,6 +54,7 @@ func CreateCollection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Song created successfully"))
+	fmt.Print(newID.String())
+	w.Write([]byte(newID.String()))
 
 }

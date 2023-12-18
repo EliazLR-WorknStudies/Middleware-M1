@@ -1,9 +1,10 @@
 package users
 
 import (
-	"github.com/gofrs/uuid"
 	"middleware/users/internal/helpers"
 	"middleware/users/internal/models"
+
+	"github.com/gofrs/uuid"
 )
 
 func GetAllUsers() ([]models.User, error) {
