@@ -83,6 +83,7 @@ def get_song(id):
     return songs_service.get_song(id)
 
 @songs.route('/', methods=['POST'])
+# @login_required
 def add_song():
     """
     ---
