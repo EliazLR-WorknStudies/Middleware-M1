@@ -31,7 +31,7 @@ DELETE /songs/<id>(#connected only) 						  (working / can be improved)
 GET /songs/<id>/ratings
 GET /songs/<id_song>/ratings/<id_rating>
 POST /songs/<id_song>/ratings/   (TO DO)
-PUT  /songs/<id_song>/ratings/   (TO DO)
-DELETE /songs/<id_song>/ratings/ (TO DO)
+PUT  /songs/<id_song>/ratings/<id_rating> (TO DO)
+DELETE /songs/<id_song>/ratings/<id_rating> (TO DO)
 ## Debug request (delete at the end)
 DELETE /users/<id>
