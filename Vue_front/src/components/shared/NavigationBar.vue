@@ -7,7 +7,7 @@
     <div v-if="isAuthenticated" class="d-flex">
       <div class="d-flex">
         <router-link to="account/profile"><span class="clickable fa fa-user text-primary fs-4 mx-3" title="account"/> </router-link>
-        <span class="fs-6 text-secondary">{{ currentUser.name }}</span>
+        <span class="fs-6 text-secondary">{{ currentUser.username }}</span>
       </div>
       <span v-on:click="logout" class="clickable fa fa-power-off text-primary fs-4 mx-3" title="logout"/>
     </div>

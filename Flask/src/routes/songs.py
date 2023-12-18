@@ -406,7 +406,7 @@ def add_rating(id_song):
 
     # enregistrer le commentaire
     try:
-        return ratings_service.add_rating(id, raiting_scheme)
+        return ratings_service.add_rating(id_song, raiting_scheme)
     except SomethingWentWrong:
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")

@@ -2,12 +2,6 @@
   <div class="w-100 d-flex flex-column text-center m-4">
     <h2 class="mx-auto mt-5 text-secondary shadow-lg">Update profile</h2>
     <form class="w-50 m-auto" @submit.prevent="update">
-      <div class="form-group row">
-        <label class="col-lg-3 col-form-label col-form-label-lg">Name</label>
-        <div class="col-lg-8">
-          <input v-model="user.name" type="text" class="form-control form-control-lg" placeholder="Name">
-        </div>
-      </div>
       <div class="form-group row mt-4">
         <label class="col-lg-3 col-form-label col-form-label-lg">Username</label>
         <div class="col-lg-8">
@@ -49,7 +43,7 @@ const toast = useToast();
 onMounted(() => {
   user.value = {
     //peut etre que l'erreur se situe ici
-    name: currentUser.value.name,
+    //name: currentUser.value.name,
     username: currentUser.value.username
   }
 })
