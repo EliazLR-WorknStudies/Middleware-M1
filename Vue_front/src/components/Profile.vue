@@ -48,6 +48,7 @@ const toast = useToast();
 
 onMounted(() => {
   user.value = {
+    //peut etre que l'erreur se situe ici
     name: currentUser.value.name,
     username: currentUser.value.username
   }

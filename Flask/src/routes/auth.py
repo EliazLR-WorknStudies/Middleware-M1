@@ -166,7 +166,7 @@ def register():
     try:
         user_register = UserRegisterSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
-  
+        print(e)
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
 
