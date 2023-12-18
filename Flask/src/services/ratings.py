@@ -37,3 +37,33 @@ def add_rating(id_song, rating_scheme):
 
     
     return ratings_response.json(), ratings_response.status_code
+
+
+def update_rating(id_rating, rating_update):
+
+    if rating_update.idUser != current_user.id:
+        raise Forbidden
+
+    rating_schema = RatingSchema().loads(json.dumps(rating_update), unknown=EXCLUDE)
+
+    if not RatingSchema.is_empty(rating_schema):
+        # on lance la requête de modification
+        response = requests.request(method="PUT", url=ratings_url+"ratings/"+id_rating, json=rating_schema)
+
+    if response.status_code != 200:
+            return response.json(), response.status_code
+    
+    
+    return response.json(), response.status_code
+
+
+def delete_rating(id_rating):
+    #On delete le commentaire dans la base de données
+    ratings_response = requests.request(method="DELETE", url=ratings_url+"ratings/"+id_rating)
+
+    #Sert a rien?
+    if ratings_response.status_code != 204:
+        return ratings_response.json(), ratings_response.status_code
+
+    
+    return ratings_response.json(), ratings_response.status_code

@@ -333,14 +333,9 @@ def get_rating(id_rating):
       tags:
           - songs
     """
-    try:
-        return ratings_service.get_rating(id_rating)
-    except NotFound: 
-          error = NotFoundSchema().loads(json.dumps({"message": "Can't manage other users"}))
-          return error, error.get("code")
-    except Forbidden: 
-          error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
-          return error, error.get("code")
+
+    return ratings_service.get_rating(id_rating)
+    
     
 
 @songs.route('/<id_song>/ratings', methods=['POST'])
@@ -416,3 +411,147 @@ def add_rating(id_song):
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")
 
+@songs.route('/<id_song>/ratings/<id_rating>', methods=['PUT'])
+# @login_required
+def update_rating(id_rating):
+    """
+    ---
+    put:
+      description: Updating a rating of a song
+
+      parameters:
+        - in: path
+          name: id_rating
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of rating id
+      requestBody:
+        required: true
+        content:
+            application/json:
+                schema: RatingUpdate
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: Forbidden
+            application/yaml:
+              schema: Forbidden
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - ratings
+    """
+    
+    # parser le body
+    try:
+        rating_update = RatingSchema().loads(json_data=request.data.decode('utf-8'))
+    except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+
+    # modification du rating
+    try:
+        return ratings_service.update_rating(id_rating, rating_update)
+    except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
+        return error, error.get("code")
+    except Forbidden:
+        error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other user's ratings"}))
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+
+    
+@songs.route('/<id_song>/ratings/<id_rating>', methods=['DELETE'])
+# @login_required
+def delete_rating(id_rating):
+    """
+    ---
+    delete:
+      description: delete a rating of a song
+
+      parameters:
+        - in: path
+          name: id_rating
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of rating id
+      responses:
+        '204':
+          description: no Content
+          content:
+            application/json:
+              schema: NoContent
+            application/yaml:
+              schema: NoContent
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: Forbidden
+            application/yaml:
+              schema: Forbidden
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - ratings
+    """
+    try:
+        return ratings_service.delete_rating(id_rating)
+    except NotFound: 
+          error = NotFoundSchema().loads(json.dumps({"message": "Can't manage other user's raitings"}))
+          return error, error.get("code")
+    except Forbidden: 
+          error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other user's raitings"}))
+          return error, error.get("code")
+    
