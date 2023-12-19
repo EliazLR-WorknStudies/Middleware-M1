@@ -1,4 +1,5 @@
 import json
+from Flask.src.helpers.content_negotiation import content_negotiation
 from flask import Blueprint, request
 from marshmallow import ValidationError
 from flask_login import login_user, logout_user, login_required, current_user
@@ -209,7 +210,7 @@ def introspect():
           - auth
           - users
     """
-    return users_service.get_user(current_user.id)
+    return content_negotiation(users_service.get_user(current_user.id))
 
 @auth.route('/delete', methods=['DELETE'])
 
