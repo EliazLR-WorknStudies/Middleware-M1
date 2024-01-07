@@ -32,9 +32,6 @@ def add_rating(id_song, rating_scheme):
     rating_schema.idSong = id_song
     ratings_response = requests.request(method="POST", url=ratings_url+"ratings/", json=rating_schema)
 
-    if ratings_response.status_code != 201:
-        return ratings_response.json(), ratings_response.status_code
-
     
     return ratings_response.json(), ratings_response.status_code
 
@@ -50,9 +47,6 @@ def update_rating(id_rating, rating_update):
         # on lance la requête de modification
         response = requests.request(method="PUT", url=ratings_url+"ratings/"+id_rating, json=rating_schema)
 
-    if response.status_code != 200:
-            return response.json(), response.status_code
-    
     
     return response.json(), response.status_code
 
@@ -60,10 +54,6 @@ def update_rating(id_rating, rating_update):
 def delete_rating(id_rating):
     #On delete le commentaire dans la base de données
     ratings_response = requests.request(method="DELETE", url=ratings_url+"ratings/"+id_rating)
-
-    #Sert a rien?
-    if ratings_response.status_code != 204:
-        return ratings_response.json(), ratings_response.status_code
 
     
     return ratings_response.json(), ratings_response.status_code

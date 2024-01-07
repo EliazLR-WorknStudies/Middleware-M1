@@ -4,6 +4,7 @@ from flask_login import login_required
 from marshmallow import ValidationError
 
 from src.models.http_exceptions import *
+from src.helpers.content_negotiation import *
 from src.schemas.user import UserUpdateSchema
 from src.schemas.errors import *
 import src.services.users as users_service
@@ -36,7 +37,8 @@ def get_users():
       tags:
           - users
     """
-    return users_service.get_users()
+    response,err= users_service.get_users()
+    return contentNegociation(response,err)
 
 @users.route('/<id>', methods=['GET'])
 @login_required
@@ -78,7 +80,8 @@ def get_user(id):
           - users
     """
     
-    return users_service.get_user(id)
+    response,err= users_service.get_user(id)
+    return contentNegociation(response,err)
 
 #debug only !
 @users.route('/<id>', methods=['DELETE'])
@@ -155,7 +158,7 @@ def put_user(id):
 
     # modification de l'utilisateur (username, nom, mot de passe, etc.)
     try:
-        return users_service.modify_user(id, user_update)
+        response,err= users_service.modify_user(id, user_update)
     except Conflict:
         error = ConflictSchema().loads(json.dumps({"message": "User already exists"}))
         return error, error.get("code")
@@ -168,3 +171,5 @@ def put_user(id):
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
+    
+    return contentNegociation(response,err)

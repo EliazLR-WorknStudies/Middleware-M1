@@ -8,6 +8,7 @@ from Flask.src.schemas.ratings import RatingSchema
 
 from src.models.http_exceptions import *
 from src.schemas.errors import *
+from src.helpers.content_negotiation import *
 import src.services.songs as songs_service
 import src.services.ratings as ratings_service
 
@@ -40,7 +41,9 @@ def get_songs():
           - songs
     """
 
-    return songs_service.get_songs()
+    response,err= songs_service.get_songs()
+    return contentNegociation(response,err)
+
 
 @songs.route('/<id>', methods=['GET'])
 @login_required
@@ -82,7 +85,8 @@ def get_song(id):
           - songs
     """
 
-    return songs_service.get_song(id)
+    response,err= songs_service.get_song(id)
+    return contentNegociation(response,err)
 
 @songs.route('/', methods=['POST'])
 # @login_required
@@ -131,10 +135,12 @@ def add_song():
 
     # enregistrer la musique
     try:
-        return songs_service.add_song(song_scheme)
+        response, err = songs_service.add_song(song_scheme)
     except SomethingWentWrong:
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")
+    
+    return contentNegociation(response,err)
     
 @songs.route('/<id>', methods=['DELETE'])
 
@@ -165,7 +171,7 @@ def delete_song(id):
 
     
   try:
-      return songs_service.delete_song(id)
+      response, err = songs_service.delete_song(id)
   except UnprocessableEntity:
       error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
       return error, error.get("code")
@@ -175,6 +181,8 @@ def delete_song(id):
   except Exception:
       error = SomethingWentWrongSchema().loads("{}")
       return error, error.get("code")
+  
+  return contentNegociation(response,err)
 
 
 @songs.route('/<id>', methods=['PUT'])
@@ -214,7 +222,7 @@ def update_song(id):
   # modification de l'utilisateur (username, nom, mot de passe, etc.)
     
   try:
-      return songs_service.update_song(song_scheme, id)
+      response, err = songs_service.update_song(song_scheme, id)
   except UnprocessableEntity:
       error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
       return error, error.get("code")
@@ -224,13 +232,8 @@ def update_song(id):
   except Exception:
       error = SomethingWentWrongSchema().loads("{}")
       return error, error.get("code")
-
-
-
-
-
-
-
+  
+  return contentNegociation(response,err)
 
 
 
@@ -291,7 +294,8 @@ def get_ratings_from_song(id_song):
           - songs
     """
     
-    return ratings_service.get_ratings(id_song)
+    response, err = ratings_service.get_ratings(id_song)
+    return contentNegociation(response,err)
 
 @songs.route('/<id_song>/ratings/<id_rating>', methods=['GET'])
 # @login_required
@@ -334,7 +338,8 @@ def get_rating(id_rating):
           - songs
     """
 
-    return ratings_service.get_rating(id_rating)
+    response, err = ratings_service.get_rating(id_rating)
+    return contentNegociation(response,err)
     
     
 
@@ -399,17 +404,20 @@ def add_rating(id_song):
     """
     
     try:
-        raiting_scheme = RatingSchema().loads(json_data=request.data.decode('utf-8'))
+        rating_scheme = RatingSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
 
     # enregistrer le commentaire
     try:
-        return ratings_service.add_rating(id_song, raiting_scheme)
+        response, err = ratings_service.add_rating(id_song, rating_scheme)
     except SomethingWentWrong:
         error = UnprocessableEntitySchema().loads("{}")
         return error, error.get("code")
+    
+    return contentNegociation(response,err)
+  
 
 @songs.route('/<id_song>/ratings/<id_rating>', methods=['PUT'])
 # @login_required
@@ -487,7 +495,7 @@ def update_rating(id_rating):
 
     # modification du rating
     try:
-        return ratings_service.update_rating(id_rating, rating_update)
+        response,err = ratings_service.update_rating(id_rating, rating_update)
     except UnprocessableEntity:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
         return error, error.get("code")
@@ -497,6 +505,8 @@ def update_rating(id_rating):
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
+    
+    return contentNegociation(response,err)
 
     
 @songs.route('/<id_song>/ratings/<id_rating>', methods=['DELETE'])
@@ -547,11 +557,13 @@ def delete_rating(id_rating):
           - ratings
     """
     try:
-        return ratings_service.delete_rating(id_rating)
+        response,err = ratings_service.delete_rating(id_rating)
     except NotFound: 
           error = NotFoundSchema().loads(json.dumps({"message": "Can't manage other user's raitings"}))
           return error, error.get("code")
     except Forbidden: 
           error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other user's raitings"}))
           return error, error.get("code")
+    
+    return contentNegociation(response,err)
     
