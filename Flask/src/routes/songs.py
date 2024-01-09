@@ -191,11 +191,11 @@ def delete_song(id):
 def update_song(id):
   """
   ---
-  delete:
-    description: Update a user
+  put:
+    description: Update a song
     responses:
       '204':
-        description: No centent
+        description: No content
         content:
           application/json:
             schema: User
@@ -209,7 +209,7 @@ def update_song(id):
           application/yaml:
             schema: Unauthorized
     tags:
-        - users
+        - songs
     """
 
   # parser le body
@@ -292,6 +292,7 @@ def get_ratings_from_song(id_song):
               schema: NotFound
       tags:
           - songs
+          - ratings
     """
     
     response, err = ratings_service.get_ratings(id_song)
@@ -336,6 +337,7 @@ def get_rating(id_rating):
               schema: NotFound
       tags:
           - songs
+          - ratings
     """
 
     response, err = ratings_service.get_rating(id_rating)
@@ -400,7 +402,8 @@ def add_rating(id_song):
             application/yaml:
               schema: InternalServerError
       tags:
-          - raiting
+          - ratings
+          - songs
     """
     
     try:
@@ -484,6 +487,7 @@ def update_rating(id_rating):
               schema: SomethingWentWrong
       tags:
           - ratings
+          - songs
     """
     
     # parser le body
@@ -555,6 +559,7 @@ def delete_rating(id_rating):
               schema: SomethingWentWrong
       tags:
           - ratings
+          - songs
     """
     try:
         response,err = ratings_service.delete_rating(id_rating)
