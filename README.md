@@ -33,5 +33,6 @@ GET /songs/<id_song>/ratings/<id_rating>
 POST /songs/<id_song>/ratings/  
 PUT  /songs/<id_song>/ratings/<id_rating> 
 DELETE /songs/<id_song>/ratings/<id_rating> 
-## Debug request (delete at the end)
+
+## Debug request 
 DELETE /users/<id>

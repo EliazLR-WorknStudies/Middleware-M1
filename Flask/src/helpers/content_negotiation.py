@@ -18,5 +18,8 @@ def contentNegociation(data,err):
     if(acceptHeader=='application/json'):
         return data,err
     
-    # Si il demande un truc inconnu on renvoie une 406
+    if(acceptHeader=='*/*'):
+        return data,err
+    
+    # Si il demande un truc inconnu on renvoie une 406 avec la data en json au cas ou!
     return data, 406

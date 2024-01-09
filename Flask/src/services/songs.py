@@ -30,7 +30,7 @@ def get_song(id):
     ratings = ratings_response.json()
     
     song_with_ratings = unify_song_ratings(song, ratings)
-    return song_with_ratings
+    return song_with_ratings , ratings_response.status_code
     
 
 def get_songs():
@@ -46,7 +46,7 @@ def get_songs():
     for song in songs:
         song_ratings = unify_song_ratings(song, ratings)
         songs_with_ratings.append(song_ratings)
-    return songs_with_ratings
+    return songs_with_ratings , ratings_response.status_code
 
 def add_song(song_scheme):
 
