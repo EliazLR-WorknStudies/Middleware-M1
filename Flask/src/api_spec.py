@@ -4,6 +4,8 @@
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
+from src.schemas.song import *
+from src.schemas.ratings import *
 from src.schemas.user import *
 from src.schemas.user_auth import *
 from src.schemas.errors import *
@@ -23,6 +25,8 @@ spec.components.schema("User", schema=UserSchema)
 spec.components.schema("UserLogin", schema=UserLoginSchema)
 spec.components.schema("UserRegister", schema=UserRegisterSchema)
 spec.components.schema("UserUpdate", schema=UserUpdateSchema)
+spec.components.schema("Song", schema=SongSchema)
+spec.components.schema("Rating", schema=RatingSchema)
 spec.components.schema("Unauthorized", schema=UnauthorizedSchema)
 spec.components.schema("Forbidden", schema=ForbiddenSchema)
 spec.components.schema("NotFound", schema=NotFoundSchema)
@@ -38,9 +42,18 @@ tags = [
         "description": "Managing users"
     },
     {
+        "name": "songs",
+        "description": "Managing songs"
+    },
+    {
+        "name": "ratings",
+        "description": "Managing ratings"
+    },
+    {
         "name": "auth",
         "description": "Managing authentication"
-    }
+    },
+
 ]
 
 for tag in tags:

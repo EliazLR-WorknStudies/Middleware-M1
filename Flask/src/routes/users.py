@@ -1,7 +1,8 @@
 import json
 from flask import Blueprint, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from marshmallow import ValidationError
+
 
 from src.models.http_exceptions import *
 from src.helpers.content_negotiation import *
@@ -39,6 +40,41 @@ def get_users():
     """
     response,err= users_service.get_users()
     return contentNegociation(response,err)
+
+@users.route('/', methods=['DELETE'])
+@login_required
+def delete_user():
+    """
+    ---
+    delete:
+      description: Delete users
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+      tags:
+          - users
+    """
+    try:
+        users_service.delete_account(current_user.id)
+    except Forbidden:
+        error = ForbiddenSchema().loads(json.dumps({"message": "Can't manage other users"}))
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+    return "Compte supprimé", 204
 
 @users.route('/<id>', methods=['GET'])
 @login_required

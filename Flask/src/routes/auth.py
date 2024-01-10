@@ -213,17 +213,18 @@ def introspect():
     response,err = users_service.get_user(current_user.id)
     return contentNegociation(response,err)
 
+
+"""
 @auth.route('/delete', methods=['DELETE'])
 
 @login_required
 def delete_user():
-  """
   ---
   delete:
     description: Delete a user
     responses:
       '204':
-        description: No centent
+        description: No content
         content:
           application/json:
             schema: User
@@ -238,7 +239,6 @@ def delete_user():
             schema: Unauthorized
     tags:
         - users
-    """
   # modification de l'utilisateur (username, nom, mot de passe, etc.)
     
   try:
@@ -250,3 +250,4 @@ def delete_user():
       error = SomethingWentWrongSchema().loads("{}")
       return error, error.get("code")
   return "Compte supprimé", 204
+"""

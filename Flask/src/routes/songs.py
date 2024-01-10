@@ -27,9 +27,9 @@ def get_songs():
           description: Ok
           content:
             application/json:
-              schema: User
+              schema: Song
             application/yaml:
-              schema: User
+              schema: Song
         '401':
           description: Unauthorized
           content:
@@ -64,9 +64,9 @@ def get_song(id):
           description: Ok
           content:
             application/json:
-              schema: User
+              schema: Song
             application/yaml:
-              schema: User
+              schema: Song
         '401':
           description: Unauthorized
           content:
@@ -99,15 +99,15 @@ def add_song():
         required: true
         content:
             application/json:
-                schema: SongSchema
+                schema: Song
       responses:
         '201':
           description: Created
           content:
             application/json:
-              schema: User
+              schema: Song
             application/yaml:
-              schema: User
+              schema: Song
         '401':
           description: Unauthorized
           content:
@@ -155,9 +155,9 @@ def delete_song(id):
         description: No content
         content:
           application/json:
-            schema: User
+            schema: Song
           application/yaml:
-            schema: User
+            schema: Song
       '401':
         description: Unauthorized
         content:
@@ -198,9 +198,9 @@ def update_song(id):
         description: No content
         content:
           application/json:
-            schema: User
+            schema: Song
           application/yaml:
-            schema: User
+            schema: Song
       '401':
         description: Unauthorized
         content:
@@ -273,9 +273,9 @@ def get_ratings_from_song(id_song):
           description: Ok
           content:
             application/json:
-              schema: User
+              schema: Rating
             application/yaml:
-              schema: User
+              schema: Rating
         '401':
           description: Unauthorized
           content:
@@ -304,7 +304,7 @@ def get_rating(id_rating):
     """
     ---
     get:
-      description: Getting ratings of a song
+      description: Getting rating of a song
 
       parameters:
         - in: path
@@ -318,9 +318,9 @@ def get_rating(id_rating):
           description: Ok
           content:
             application/json:
-              schema: User
+              schema: Rating
             application/yaml:
-              schema: User
+              schema: Rating
         '401':
           description: Unauthorized
           content:
@@ -364,15 +364,15 @@ def add_rating(id_song):
             required: true
             content:
               application/json:
-                schema: Rating Schema
+                schema: Rating
       responses:
         '201':
           description: Ok
           content:
             application/json:
-              schema: User
+              schema: Rating
             application/yaml:
-              schema: User
+              schema: Rating
         '401':
           description: Unauthorized
           content:
@@ -441,15 +441,15 @@ def update_rating(id_rating):
         required: true
         content:
             application/json:
-                schema: RatingUpdate
+                schema: Rating
       responses:
         '200':
           description: Ok
           content:
             application/json:
-              schema: User
+              schema: Rating
             application/yaml:
-              schema: User
+              schema: Rating
         '401':
           description: Unauthorized
           content:
@@ -530,12 +530,12 @@ def delete_rating(id_rating):
           description: UUID of rating id
       responses:
         '204':
-          description: no Content
+          description: No Content
           content:
             application/json:
-              schema: NoContent
+              schema: Rating
             application/yaml:
-              schema: NoContent
+              schema: Rating
         '401':
           description: Unauthorized
           content:
